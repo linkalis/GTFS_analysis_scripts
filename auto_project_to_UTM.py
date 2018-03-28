@@ -9,13 +9,18 @@ outFC = 'mpls_stpaul_shapes_projected'
 # Manage environments
 # http://pro.arcgis.com/en/pro-app/tool-reference/environment-settings/scratch-workspace.htm
 main_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis\\GTFSAnalysis.gdb"
-#scratch_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis\\scratch.gdb"
 scratch_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis"
 
 # Switch to scratch workspace
 arcpy.env.scratchWorkspace = scratch_ws # initialize the scratch workspace
 arcpy.env.workspace = arcpy.env.scratchGDB # point to the scratch geodatabase as target for storing intermediate data
 #arcpy.env.workspace = arcpy.env.scratchFolder # point to the scratch folder (shapefiles) as target for storing intermediate data
+
+# Load UTM zone data into map
+# Note: A feature class called 'utm' must be available in the project's main geodatabase
+aprx = arcpy.mp.ArcGISProject("CURRENT")
+map = aprx.listMaps()[0]  # add data to first map listed
+utm_layer = map.addDataFromPath(main_ws + "\\utm")
 
 # Get a bounding box envelope
 arcpy.MinimumBoundingGeometry_management(inFC , 'bounding_box', "ENVELOPE", "ALL")
@@ -68,4 +73,4 @@ arcpy.Project_management(inFC, outFC, out_coordinate_system)
 
 # Clean up scratch workspace
 arcpy.Delete_management(arcpy.env.scratchGDB)
-#arcpy.Delete_management(arcpy.env.scratchFolder)
+map.removeLayer(utm_layer)
