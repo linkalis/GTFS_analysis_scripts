@@ -15,17 +15,18 @@ arcpy.MinimumBoundingGeometry_management(outFC_buffer,
                                          outFC_envelope,
                                          "CONVEX_HULL", "NONE")
 
-cursor = arcpy.da.SearchCursor(outFC_envolope, ['Shape_Area'])
+cursor = arcpy.da.SearchCursor(outFC_envelope, ['Shape_Area'])
 for row in cursor:
-    total_coverage_area = row[0]
-    print('TOTAL COVERAGE AREA: ' + str(total_coverage_area))
+    total_coverage_area = row[0] * 0.000001
+    print('TOTAL COVERAGE AREA: ' + str(total_coverage_area) + " sq km")
 
 
 cursor = arcpy.da.SearchCursor(outFC_buffer, ['Shape_Area'])
 for row in cursor:
-    print('NEAR TRANSIT AREA: ' + str(row[0]))
+    near_transit_area = row[0] * 0.000001
+    print('NEAR TRANSIT AREA: ' + str(near_transit_area)  + " sq km")
 
-total_stops = arcpy.GetCount_management(inFC)
-stop_density = total_stops / total_coverage_area
+total_stops = arcpy.GetCount_management(inFC)[0]
+stop_density = float(total_stops) / total_coverage_area
 
-print('STOP DENSITY: ' + str(stop_density))
+print('STOP DENSITY: ' + str(stop_density)  + " per sq km")
