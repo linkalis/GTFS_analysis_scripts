@@ -1,9 +1,16 @@
-# Dissolve routes and compute route type statistics
+###########################
+## ROUTE TYPE STATISTICS ##
+###########################
 
+# Purpose: Compute the percentage of each route type that is present in a
+# GTFS dataset and print results to the console
+
+# Load required libraries
 import arcpy
 import numpy as np
 import SSDataObject as ssdo
 
+# Set inputs and outputs
 inFC = 'mpls_stpaul_shapes_projected'
 outFC = 'mpls_stpaul_shapes_projected_dissolved'
 

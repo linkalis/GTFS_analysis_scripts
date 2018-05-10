@@ -1,6 +1,11 @@
-# Dissolve routes and compute route type statistics
+############################################
+## ROUTE TYPE STATISTICS - ArcGIS Toolbox ##
+############################################
 
-# Import required modules
+# Purpose: Compute the percentage of each route type that is present in a
+# GTFS dataset and save the results to a table in the default project geodatabase
+
+# Load required libraries
 import arcpy
 import numpy as np
 import SSDataObject as ssdo
@@ -12,7 +17,7 @@ dissolvedFC = 'dissolvedFC'
 
 arcpy.AddMessage("Table will be saved to: " + outTable)
 
-arcpy.SetProgressorLabel("Dissolving routes by route type...")
+arcpy.SetProgressorLabel("Dissolving routes by route type...") # Update the user on our progress so far
 
 # Dissolve the input shapes/routes feature class using 'route_type' as a dissolve field.
 # This avoids double-counting parts of the networks where multiple routes use

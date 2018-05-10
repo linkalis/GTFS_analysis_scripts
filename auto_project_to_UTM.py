@@ -1,15 +1,23 @@
-# Auto-Project to correct UTM zone
+##########################
+## Auto-Project to UTM  ##
+##########################
 
+# Purpose: Auto-detect the correct UTM zone for a feature class based on
+# a lookup against a UTM reference feature class, then project the input
+# feature class into this UTM zone. This script is a useful preprocessing
+# step to perform prior to running any of the stats scripts.
+
+# Load required libraries
 from arcpy import *
 
-# Define inputs and outputs
+# Set inputs and outputs
 inFC = 'mpls_stpaul_shapes'
 outFC = 'mpls_stpaul_shapes_projected'
 
 # Manage environments
 # http://pro.arcgis.com/en/pro-app/tool-reference/environment-settings/scratch-workspace.htm
-main_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis\\GTFSAnalysis.gdb"
-scratch_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis"
+main_ws = "C:\\path\\to\\your\\project\\folder\\GTFSAnalysis.gdb" # point this to the default geodatabase within your active project
+scratch_ws = "C:\\path\\to\\your\\project\\folder" # point this to the top-level folder that houses your project, including the geodatabase and any additional files
 
 # Switch to scratch workspace
 arcpy.env.scratchWorkspace = scratch_ws # initialize the scratch workspace
@@ -17,7 +25,7 @@ arcpy.env.workspace = arcpy.env.scratchGDB # point to the scratch geodatabase as
 #arcpy.env.workspace = arcpy.env.scratchFolder # point to the scratch folder (shapefiles) as target for storing intermediate data
 
 # Load UTM zone data into map
-# Note: A feature class called 'utm' must be available in the project's main geodatabase
+# Note: A reference feature class called 'utm' must be available in the project's main geodatabase
 aprx = arcpy.mp.ArcGISProject("CURRENT")
 map = aprx.listMaps()[0]  # add data to first map listed
 utm_layer = map.addDataFromPath(main_ws + "\\utm")
