@@ -1,4 +1,8 @@
+
+
+# Load required libraries
 import arcpy
+
 
 main_ws = "X:\\GIS5572\\GIS5572_PosterProject\\GTFSAnalysis\\GTFSAnalysis.gdb"
 arcpy.env.workspace = main_ws
